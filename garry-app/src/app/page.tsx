@@ -25,7 +25,9 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        {!loading && store.getState().map((hero) => { return <CardHero hero={hero} key={hero.id} /> })}
+        <div className={styles.container}>
+          {!loading && store.getState().map((hero) => { return <CardHero hero={hero} key={hero.id} /> })}
+          </div>
       </main>
     </div>
   );

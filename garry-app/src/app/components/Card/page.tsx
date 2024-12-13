@@ -16,39 +16,45 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 
 export default function CardHero(props: propsHero) {
-	const [color, setColor] = React.useState('');
+  const [color, setColor] = React.useState('');
 
-	const [imageSrc, setimageSrc] = React.useState('');
+  const [imageSrc, setimageSrc] = React.useState('/');
 
-	useEffect(() => {
-		function colorSrc(str: string) {
-			switch (str) {
-				case 'Gryffindor':
-					setColor('red');
-					setimageSrc('./gryffindor.svg');
-					break;
-				case 'Hufflepuff':
-					setColor('yellow');
-					setimageSrc('./hufflepuff.svg');
-					break;
-				case 'Ravenclaw':
-					setColor('blue');
-					setimageSrc('./ravenclaw.svg');
-					break;
-				case 'Slytherin':
-					setColor('green');
-					setimageSrc('./slytherin.svg');
-					break;
-				default:
-					break;
-			}
-		}
-		colorSrc(props.hero.house);
-	});	
+  useEffect(() => {
+    function colorSrc(str: string) {
+      switch (str) {
+        case 'Gryffindor':
+          setColor('red');
+          setimageSrc('./gryffindor.svg');
+          break;
+        case 'Hufflepuff':
+          setColor('yellow');
+          setimageSrc('./hufflepuff.svg');
+          break;
+        case 'Ravenclaw':
+          setColor('blue');
+          setimageSrc('./ravenclaw.svg');
+          break;
+        case 'Slytherin':
+          setColor('green');
+          setimageSrc('./slytherin.svg');
+          break;
+        default:
+          setColor('white');
+          setimageSrc('./hogwarts.svg');
+          break;
+      }
+    }
+    colorSrc(props.hero.house);
+  });
 
   return (
-    <Card sx={{ maxWidth: 345, fontFamily: 'var(--font-fontdiner-sans)' }}>
+    <Card sx={{ width: 345 }}>
       <CardHeader
+        sx={{
+          fontFamily: 'var(--font-fontdiner-sans)',
+          height: `90px`,
+        }}
         avatar={
           <Avatar sx={{ bgcolor: color }} aria-label='faculty'>
             <Image
@@ -60,8 +66,11 @@ export default function CardHero(props: propsHero) {
           </Avatar>
         }
         title={props.hero.name}
-        sx={{
-          fontFamily: 'var(--font-fontdiner-sans)',
+        titleTypographyProps={{
+          sx: {
+            fontFamily: 'var(--font-fontdiner-sans)',
+            fontSize: '24px',
+          },
         }}
       />
       <CardMedia
@@ -71,11 +80,19 @@ export default function CardHero(props: propsHero) {
         alt={props.hero.name}
         sx={{
           objectFit: 'contain',
+          height: `200px`,
         }}
       />
       <CardContent>
-        <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-          {props.hero.patronus}
+        <Typography
+          variant='body2'
+          sx={{
+            color: 'text.secondary',
+            fontFamily: 'var(--font-montserrat-sans)',
+            fontSize: '18px',
+          }}
+        >
+          {`patronus:`} {props.hero.patronus || 'unknown'}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

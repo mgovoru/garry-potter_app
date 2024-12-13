@@ -1,0 +1,14 @@
+.main {
+  background: url('./../../public/castle.jpg');
+  background-size: cover;
+  padding: 48px;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
