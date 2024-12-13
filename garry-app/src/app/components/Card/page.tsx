@@ -9,33 +9,69 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { propsHero } from '@/app/types';
+import Image from 'next/image';
+import { useEffect } from 'react';
 
 export default function CardHero(props: propsHero) {
+	const [color, setColor] = React.useState('');
+
+	const [imageSrc, setimageSrc] = React.useState('');
+
+	useEffect(() => {
+		function colorSrc(str: string) {
+			switch (str) {
+				case 'Gryffindor':
+					setColor('red');
+					setimageSrc('./gryffindor.svg');
+					break;
+				case 'Hufflepuff':
+					setColor('yellow');
+					setimageSrc('./hufflepuff.svg');
+					break;
+				case 'Ravenclaw':
+					setColor('blue');
+					setimageSrc('./ravenclaw.svg');
+					break;
+				case 'Slytherin':
+					setColor('green');
+					setimageSrc('./slytherin.svg');
+					break;
+				default:
+					break;
+			}
+		}
+		colorSrc(props.hero.house);
+	});	
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, fontFamily: 'var(--font-fontdiner-sans)' }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label='recipe'>
-            R
+          <Avatar sx={{ bgcolor: color }} aria-label='faculty'>
+            <Image
+              src={imageSrc as string}
+              alt='faculty'
+              width={35}
+              height={35}
+            />
           </Avatar>
         }
-        // action={
-        //   <IconButton aria-label='settings'>
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
         title={props.hero.name}
-        // subheader='September 14, 2016'
+        sx={{
+          fontFamily: 'var(--font-fontdiner-sans)',
+        }}
       />
       <CardMedia
         component='img'
         height='194'
         image={props.hero.image}
-        alt='Paella dish'
+        alt={props.hero.name}
+        sx={{
+          objectFit: 'contain',
+        }}
       />
       <CardContent>
         <Typography variant='body2' sx={{ color: 'text.secondary' }}>
