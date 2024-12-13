@@ -24,3 +24,7 @@ export type Character = {
 	alive: boolean; 
 	image: string; 
 };
+
+export type propsHero ={
+	hero: Character;
+}

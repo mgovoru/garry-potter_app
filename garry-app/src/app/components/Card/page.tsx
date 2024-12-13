@@ -11,9 +11,10 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { propsHero } from '@/app/types';
 
-export default function CardHero() {
+export default function CardHero(props: propsHero) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -27,28 +28,26 @@ export default function CardHero() {
         //     <MoreVertIcon />
         //   </IconButton>
         // }
-        title='Shrimp and Chorizo Paella'
+        title={props.hero.name}
         // subheader='September 14, 2016'
       />
       <CardMedia
         component='img'
         height='194'
-        image='/static/images/cards/paella.jpg'
+        image={props.hero.image}
         alt='Paella dish'
       />
       <CardContent>
         <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {props.hero.patronus}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label='add to favorites'>
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label='share'>
-          <ShareIcon />
+        <IconButton aria-label='delete'>
+          <DeleteIcon />
         </IconButton>
       </CardActions>
     </Card>

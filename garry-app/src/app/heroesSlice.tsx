@@ -8,14 +8,17 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     addhero: (state, action) => {
-      state.push(action.payload)
+      state.push(action.payload);
+    },
+    addheroes: (state, action) => {
+      state.push(...action.payload);
     },
     removehero: (state, action) => {
-      state.filter(element => element.id !== action.payload.id)
+      state.filter((element) => element.id !== action.payload.id);
     },
   },
 });
 
-export const { addhero, removehero } = counterSlice.actions;
+export const { addhero, addheroes, removehero } = counterSlice.actions;
 
 export default counterSlice.reducer;
