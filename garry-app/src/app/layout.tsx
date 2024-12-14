@@ -1,7 +1,6 @@
-'use client'
-// import type { Metadata } from "next";
+'use client';
 import { Fontdiner_Swanky, Montserrat } from 'next/font/google';
-import "./globals.css";
+import './globals.css';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
@@ -17,10 +16,6 @@ const montserratFont = Montserrat({
   weight: '600',
 });
 
-// const metadata: Metadata = {
-//   title: 'Garry Potter App',
-//   description: 'Encyclopedia of book heroes Garry Potter',
-// };
 
 export default function RootLayout({
   children,
@@ -28,10 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={`${swankyFont.variable} ${montserratFont.variable}`}>
-        <Provider store={store}>{children}</Provider>
-      </body>
-    </html>
+    <Provider store={ store }>
+      <html lang='en'>
+        <body className={`${swankyFont.variable} ${montserratFont.variable}`}>
+          {children}
+        </body>
+      </html>
+    </Provider>
   );
 }

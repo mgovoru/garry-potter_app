@@ -11,36 +11,42 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { propsHero } from '@/app/types';
+import { InitialStore, propsHero } from '@/app/types';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { store } from '@/app/store';
 import {
   addFavoriteHero,
   removeFavoriteHero,
   removeHero,
 } from '@/app/heroesSlice';
+import Link from 'next/link';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function CardHero(props: propsHero) {
-
   const [color, setColor] = React.useState('');
 
   const [colorIcon, setColorIcon] = React.useState(false);
 
   const [imageSrc, setimageSrc] = React.useState('/');
 
-  const addRemoveFavorite = () => {
-    if (store.getState().favorite.includes(props.hero.id)) {
-      store.dispatch(removeFavoriteHero(props.hero.id));
+  const stateFavorite = useSelector((state: InitialStore) => state.favorite);
+
+  const dispatch = useDispatch();
+
+  const addRemoveFavorite = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (stateFavorite.includes(props.hero.id)) {
+      dispatch(removeFavoriteHero(props.hero.id));
       setColorIcon(false);
     } else {
-      store.dispatch(addFavoriteHero(props.hero.id));
+      dispatch(addFavoriteHero(props.hero.id));
       setColorIcon(true);
     }
   };
 
   const heroRemove = () => {
-    store.dispatch(removeHero(props.hero.id));
+    dispatch(removeHero(props.hero.id));
   };
 
   useEffect(() => {
@@ -72,64 +78,66 @@ export default function CardHero(props: propsHero) {
   });
 
   return (
-    <Card sx={{ width: 345 }}>
-      <CardHeader
-        sx={{
-          fontFamily: 'var(--font-fontdiner-sans)',
-          height: `90px`,
-        }}
-        avatar={
-          <Avatar sx={{ bgcolor: color }} aria-label='faculty'>
-            <Image
-              src={imageSrc as string}
-              alt='faculty'
-              width={35}
-              height={35}
-            />
-          </Avatar>
-        }
-        title={props.hero.name}
-        titleTypographyProps={{
-          sx: {
-            fontFamily: 'var(--font-fontdiner-sans)',
-            fontSize: '24px',
-          },
-        }}
-      />
-      <CardMedia
-        component='img'
-        height='194'
-        image={props.hero.image}
-        alt={props.hero.name}
-        sx={{
-          objectFit: 'contain',
-          height: `200px`,
-        }}
-      />
-      <CardContent>
-        <Typography
-          variant='body2'
+    <Link href={`/products/${props.hero.id}`} passHref legacyBehavior>
+      <Card sx={{ width: 345 }} component='a'>
+        <CardHeader
           sx={{
-            color: 'text.secondary',
-            fontFamily: 'var(--font-montserrat-sans)',
-            fontSize: '18px',
+            fontFamily: 'var(--font-fontdiner-sans)',
+            height: `90px`,
           }}
-        >
-          {`patronus:`} {props.hero.patronus || 'unknown'}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton
-          aria-label='add to favorites'
-          onClick={addRemoveFavorite}
-          sx={{ color: !colorIcon ? 'grey' : 'red' }}
-        >
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label='delete' onClick={heroRemove}>
-          <DeleteIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+          avatar={
+            <Avatar sx={{ bgcolor: color }} aria-label='faculty'>
+              <Image
+                src={imageSrc as string}
+                alt='faculty'
+                width={35}
+                height={35}
+              />
+            </Avatar>
+          }
+          title={props.hero.name}
+          titleTypographyProps={{
+            sx: {
+              fontFamily: 'var(--font-fontdiner-sans)',
+              fontSize: '24px',
+            },
+          }}
+        />
+        <CardMedia
+          component='img'
+          height='194'
+          image={props.hero.image}
+          alt={props.hero.name}
+          sx={{
+            objectFit: 'contain',
+            height: `200px`,
+          }}
+        />
+        <CardContent>
+          <Typography
+            variant='body2'
+            sx={{
+              color: 'text.secondary',
+              fontFamily: 'var(--font-montserrat-sans)',
+              fontSize: '18px',
+            }}
+          >
+            {`patronus:`} {props.hero.patronus || 'unknown'}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton
+            aria-label='add to favorites'
+            onClick={addRemoveFavorite}
+            sx={{ color: !colorIcon ? 'grey' : 'red' }}
+          >
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label='delete' onClick={heroRemove}>
+            <DeleteIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </Link>
   );
 }

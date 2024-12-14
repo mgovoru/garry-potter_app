@@ -11,7 +11,7 @@ export const heroesSlice = createSlice({
       state.favorite.push(action.payload);
     },
     setHeroes: (state, action) => {
-      state.heroes.push(...action.payload);
+      state.heroes= action.payload;
     },
     removeFavoriteHero: (state, action) => {
        state.favorite = state.favorite.filter(
