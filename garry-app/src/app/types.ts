@@ -28,3 +28,8 @@ export type Character = {
 export type propsHero ={
 	hero: Character;
 }
+
+export type InitialStore = {
+	heroes: Character[];
+	favorite: string[];
+};

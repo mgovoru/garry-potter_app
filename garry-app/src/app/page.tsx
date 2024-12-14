@@ -5,14 +5,15 @@ import CardHero from './components/Card/page';
 import styles from './page.module.css';
 import axios from 'axios';
 import { store } from './store';
-import { addheroes } from './heroesSlice';
-import { Character } from './types';
+import { setHeroes } from './heroesSlice';
+import { Character, InitialStore } from './types';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
+import { useSelector } from 'react-redux';
 
 const BootstrapInput = styled(InputBase)(({}) => ({
   '& .MuiInputBase-input': {
@@ -31,6 +32,10 @@ export default function Home() {
   const [loading, setLoading] = React.useState(true);
   const [favorite, setFavorite] = React.useState('all');
 
+  const stateHeroes = useSelector(
+    (state: InitialStore) => state.heroes
+  );
+
   const handleChange = (event: SelectChangeEvent) => {
     setFavorite(event.target.value as string);
   };
@@ -41,7 +46,7 @@ export default function Home() {
         const response = await axios.get(
           'https://hp-api.onrender.com/api/characters'
         );
-        store.dispatch(addheroes(response.data.slice(0, 20) as Character[]));
+        store.dispatch(setHeroes(response.data.slice(0, 20) as Character[]));
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -91,9 +96,17 @@ export default function Home() {
             </Select>
           </FormControl>
           {!loading &&
-            store.getState().map((hero) => {
-              return <CardHero hero={hero} key={hero.id} />;
-            })}
+            (favorite !== 'favorite'
+              ? stateHeroes.map((hero) => {
+                  return <CardHero hero={hero} key={hero.id} />;
+                })
+              : stateHeroes
+                  .filter(
+                    (hero) => store.getState().favorite.indexOf(hero.id) !== -1
+                  )
+                  .map((hero) => {
+                    return <CardHero hero={hero} key={hero.id} />;
+                  }))}
         </div>
       </main>
     </div>

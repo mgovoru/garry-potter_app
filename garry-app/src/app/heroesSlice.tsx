@@ -1,24 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Character } from './types';
+import { InitialStore } from './types';
 
-const initialState: Character[] = [];
+const initialState: InitialStore = { heroes: [], favorite: [] };
 
-export const counterSlice = createSlice({
+export const heroesSlice = createSlice({
   name: 'heroes',
   initialState,
   reducers: {
-    addhero: (state, action) => {
-      state.push(action.payload);
+    addFavoriteHero: (state, action) => {
+      state.favorite.push(action.payload);
     },
-    addheroes: (state, action) => {
-      state.push(...action.payload);
+    setHeroes: (state, action) => {
+      state.heroes.push(...action.payload);
     },
-    removehero: (state, action) => {
-      state.filter((element) => element.id !== action.payload.id);
+    removeFavoriteHero: (state, action) => {
+       state.favorite = state.favorite.filter(
+         (element) => element !== action.payload
+       );
+    },
+    removeHero: (state, action) => {
+       state.heroes = state.heroes.filter(
+         (element) => element.id !== action.payload
+       );
     },
   },
 });
 
-export const { addhero, addheroes, removehero } = counterSlice.actions;
+export const { addFavoriteHero, setHeroes, removeFavoriteHero, removeHero } =
+  heroesSlice.actions;
 
-export default counterSlice.reducer;
+export default heroesSlice.reducer;

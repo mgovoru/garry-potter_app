@@ -14,11 +14,34 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { propsHero } from '@/app/types';
 import Image from 'next/image';
 import { useEffect } from 'react';
+import { store } from '@/app/store';
+import {
+  addFavoriteHero,
+  removeFavoriteHero,
+  removeHero,
+} from '@/app/heroesSlice';
 
 export default function CardHero(props: propsHero) {
+
   const [color, setColor] = React.useState('');
 
+  const [colorIcon, setColorIcon] = React.useState(false);
+
   const [imageSrc, setimageSrc] = React.useState('/');
+
+  const addRemoveFavorite = () => {
+    if (store.getState().favorite.includes(props.hero.id)) {
+      store.dispatch(removeFavoriteHero(props.hero.id));
+      setColorIcon(false);
+    } else {
+      store.dispatch(addFavoriteHero(props.hero.id));
+      setColorIcon(true);
+    }
+  };
+
+  const heroRemove = () => {
+    store.dispatch(removeHero(props.hero.id));
+  };
 
   useEffect(() => {
     function colorSrc(str: string) {
@@ -96,10 +119,14 @@ export default function CardHero(props: propsHero) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label='add to favorites'>
+        <IconButton
+          aria-label='add to favorites'
+          onClick={addRemoveFavorite}
+          sx={{ color: !colorIcon ? 'grey' : 'red' }}
+        >
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label='delete'>
+        <IconButton aria-label='delete' onClick={heroRemove}>
           <DeleteIcon />
         </IconButton>
       </CardActions>
