@@ -4,7 +4,7 @@ import CardHero from "../components/Card/page";
 import React from "react";
 import { useSelector } from "react-redux";
 import { InitialStore } from "../types";
-import styles from './page.module.css';
+import styles from './page.module.scss';
 
 
 const BootstrapInput = styled(InputBase)(({}) => ({

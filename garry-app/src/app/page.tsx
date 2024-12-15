@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { useEffect } from 'react';
-import styles from './page.module.css';
+import styles from './page.module.scss';
 import axios from 'axios';
 import { setHeroes } from './heroesSlice';
 import { Character } from './types';
