@@ -4,7 +4,7 @@ import CardHero from "../components/Card/page";
 import React from "react";
 import { useSelector } from "react-redux";
 import { InitialStore } from "../types";
-import styles from './page.module.scss';
+import Link from "next/link";
 
 
 const BootstrapInput = styled(InputBase)(({}) => ({
@@ -36,57 +36,56 @@ export default function Products() {
    };
 
 	return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <FormControl fullWidth>
-            <InputLabel
-              id='demo-simple-select-label'
+    <main className='main'>
+      <div className='container'>
+        <Link href='/create-product'>create hero</Link>
+        <FormControl fullWidth>
+          <InputLabel
+            id='demo-simple-select-label'
+            sx={{
+              color: 'white',
+              fontFamily: 'var(--font-fontdiner-sans)',
+              '&.Mui-focused': { color: 'red' },
+            }}
+          >
+            Choose heroes
+          </InputLabel>
+          <Select
+            labelId='demo-simple-select-label'
+            id='demo-simple-select'
+            value={favorite}
+            label='Age'
+            onChange={handleChange}
+            input={<BootstrapInput />}
+          >
+            <MenuItem
+              value={'all'}
               sx={{
-                color: 'white',
                 fontFamily: 'var(--font-fontdiner-sans)',
-                '&.Mui-focused': { color: 'red' },
               }}
             >
-              Choose heroes
-            </InputLabel>
-            <Select
-              labelId='demo-simple-select-label'
-              id='demo-simple-select'
-              value={favorite}
-              label='Age'
-              onChange={handleChange}
-              input={<BootstrapInput />}
+              All
+            </MenuItem>
+            <MenuItem
+              value={'favorite'}
+              sx={{
+                fontFamily: 'var(--font-fontdiner-sans)',
+              }}
             >
-              <MenuItem
-                value={'all'}
-                sx={{
-                  fontFamily: 'var(--font-fontdiner-sans)',
-                }}
-              >
-                All
-              </MenuItem>
-              <MenuItem
-                value={'favorite'}
-                sx={{
-                  fontFamily: 'var(--font-fontdiner-sans)',
-                }}
-              >
-                Favorite
-              </MenuItem>
-            </Select>
-          </FormControl>
-          {favorite !== 'favorite'
-            ? stateHeroes.map((hero, index) => {
+              Favorite
+            </MenuItem>
+          </Select>
+        </FormControl>
+        {favorite !== 'favorite'
+          ? stateHeroes.map((hero, index) => {
+              return <CardHero hero={hero} key={index} />;
+            })
+          : stateHeroes
+              .filter((hero) => stateFavorite.indexOf(hero.id) !== -1)
+              .map((hero, index) => {
                 return <CardHero hero={hero} key={index} />;
-              })
-            : stateHeroes
-                .filter((hero) => stateFavorite.indexOf(hero.id) !== -1)
-                .map((hero, index) => {
-                  return <CardHero hero={hero} key={index} />;
-                })}
-        </div>
-      </main>
-    </div>
+              })}
+      </div>
+    </main>
   );
 } 

@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -10,7 +10,6 @@ import CardActions from '@mui/material/CardActions';
 import { notFound, usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { Character, InitialStore } from '@/app/types';
-import styles from './page.module.scss';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -18,7 +17,7 @@ import { styled } from '@mui/material/styles';
 import Link from 'next/link';
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: '#fff',
+	backgroundColor: '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
@@ -40,9 +39,8 @@ export default function PageCard() {
   }
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <div className={styles.container}>
+      <main className="main">
+        <div className="container">
           <Card sx={{ maxWidth: 545, minWidth: 345, paddingTop: '20px' }}>
             <CardActionArea>
               <CardMedia
@@ -66,17 +64,10 @@ export default function PageCard() {
                   <Box
                     sx={{
                       width: '100%',
-                      fontFamily: 'var(--font-montserrat-sans)',
-                      fontSize: '24px',
                     }}
                   >
                     <Stack
                       spacing={2}
-                      sx={{
-                        '& > *': {
-                          fontFamily: 'var(--font-montserrat-sans)'
-                        },
-                      }}
                     >
                       <Item>
                         {'house: '}
@@ -145,6 +136,5 @@ export default function PageCard() {
           </Card>
         </div>
       </main>
-    </div>
   );
 }

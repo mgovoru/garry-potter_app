@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import { useEffect } from 'react';
-import styles from './page.module.scss';
 import axios from 'axios';
 import { setHeroes } from './heroesSlice';
 import { Character } from './types';
@@ -25,17 +24,15 @@ export default function Home() {
       }
     }
     getHeroes();
-  }, []);
+  }, [dispatch]);
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
+      <main className="main">
         {loading ? (
           <div>Loading...</div>
         ) : (
           <Link href='/products'>Harry Potter Heroes</Link>
         )}
       </main>
-    </div>
   );
 }
