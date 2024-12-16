@@ -45,65 +45,63 @@ export default function Products() {
   };
 
   return (
-    <main className='main'>
-      <div className='container'>
-        <Link href='/create-product'>create hero</Link>
-        <FormControl fullWidth>
-          <InputLabel
-            id='demo-simple-select-label'
+    <>
+      <Link href='/create-product'>create hero</Link>
+      <FormControl fullWidth>
+        <InputLabel
+          id='demo-simple-select-label'
+          sx={{
+            color: 'white',
+            fontFamily: 'var(--font-fontdiner-sans)',
+            '&.Mui-focused': { color: 'red' },
+          }}
+        >
+          Choose heroes
+        </InputLabel>
+        <Select
+          labelId='demo-simple-select-label'
+          id='demo-simple-select'
+          value={favorite}
+          label='Age'
+          onChange={handleChange}
+          input={<BootstrapInput />}
+        >
+          <MenuItem
+            value={'all'}
             sx={{
+              fontFamily: 'var(--font-fontdiner-sans)',
+            }}
+          >
+            All
+          </MenuItem>
+          <MenuItem
+            value={'favorite'}
+            sx={{
+              fontFamily: 'var(--font-fontdiner-sans)',
+            }}
+          >
+            Favorite
+          </MenuItem>
+        </Select>
+      </FormControl>
+      <Stack
+        spacing={2}
+        sx={{ marginBottom: '20px', display: 'flex', width: '100%' }}
+      >
+        <Pagination
+          count={10}
+          shape='rounded'
+          onChange={handlePageChange}
+          page={currentPage}
+          sx={{
+            '& .MuiPaginationItem-root': {
               color: 'white',
               fontFamily: 'var(--font-fontdiner-sans)',
-              '&.Mui-focused': { color: 'red' },
-            }}
-          >
-            Choose heroes
-          </InputLabel>
-          <Select
-            labelId='demo-simple-select-label'
-            id='demo-simple-select'
-            value={favorite}
-            label='Age'
-            onChange={handleChange}
-            input={<BootstrapInput />}
-          >
-            <MenuItem
-              value={'all'}
-              sx={{
-                fontFamily: 'var(--font-fontdiner-sans)',
-              }}
-            >
-              All
-            </MenuItem>
-            <MenuItem
-              value={'favorite'}
-              sx={{
-                fontFamily: 'var(--font-fontdiner-sans)',
-              }}
-            >
-              Favorite
-            </MenuItem>
-          </Select>
-        </FormControl>
-        <Stack
-          spacing={2}
-          sx={{ marginBottom: '20px', display: 'flex', width: '100%' }}
-        >
-          <Pagination
-            count={10}
-            shape='rounded'
-            onChange={handlePageChange}
-            page={currentPage}
-            sx={{
-              '& .MuiPaginationItem-root': {
-                color: 'white',
-                fontFamily: 'var(--font-fontdiner-sans)',                                               
-              },
-            }}
-          />
-        </Stack>
-        <Cards favorite={favorite} numberPage={currentPage} />
-      </div>
-    </main>
+            },
+          }}
+        />
+      </Stack>
+      <Cards favorite={favorite} numberPage={currentPage} />
+    </>
   );
 }

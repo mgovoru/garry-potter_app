@@ -64,7 +64,6 @@ function InnerLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -81,16 +80,16 @@ function InnerLayout({
     getHeroes();
   }, [dispatch]);
 
-
   return (
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <html lang='en'>
-          <body className={`${swankyFont.variable} ${montserratFont.variable}`}>
-            {children}
-          </body>
-        </html>
-      </Provider>
+      <html lang='en'>
+        <body className={`${swankyFont.variable} ${montserratFont.variable}`}>
+          {' '}
+          <main className='main'>
+            <div className='container'>{children}</div>
+          </main>
+        </body>
+      </html>
     </ThemeProvider>
   );
 }

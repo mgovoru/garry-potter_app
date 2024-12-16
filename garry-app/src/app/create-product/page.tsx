@@ -78,8 +78,7 @@ export default function CreateProduct() {
   };
 
   return (
-    <main className='main'>
-      <div className='container'>
+    <>
         <Box
           component='form'
           sx={{
@@ -270,8 +269,7 @@ export default function CreateProduct() {
             </Typography>
           </Button>
         </Box>
-        <Link href='/products'>to students</Link>
-      </div>
-    </main>
+      <Link href='/products'>to students</Link>
+      </>
   );
 }
