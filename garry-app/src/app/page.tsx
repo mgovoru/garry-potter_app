@@ -1,38 +1,17 @@
 'use client';
 import React from 'react';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { setHeroes } from './heroesSlice';
-import { Character } from './types';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
 
 export default function Home() {
-  const [loading, setLoading] = React.useState(true);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    async function getHeroes() {
-      try {
-        const response = await axios.get(
-          'https://hp-api.onrender.com/api/characters'
-        );
-        dispatch(setHeroes(response.data.slice(0, 20) as Character[]));
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getHeroes();
-  }, [dispatch]);
-
   return (
-      <main className="main">
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          <Link href='/products'>Harry Potter Heroes</Link>
-        )}
-      </main>
+    <main className='main'>
+      <div className='container'>
+        <Link href='/products' className='link'>
+          <h1>
+            Harry Potter Heroes <br /> Press me!
+          </h1>
+        </Link>
+      </div>
+    </main>
   );
 }

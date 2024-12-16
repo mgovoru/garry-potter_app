@@ -14,3 +14,14 @@
   justify-content: center;
   gap: 24px;
 }
+
+.link {
+  color: white;
+  text-decoration: none;
+  text-shadow: 3px 3px 3px black;
+  text-align: center;
+}
+
+.link:hover {
+  color: red;
+}

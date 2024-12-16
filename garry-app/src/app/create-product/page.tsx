@@ -15,12 +15,32 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addHero } from '../heroesSlice';
 import Link from 'next/link';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
+const validationSchema = yup.object({
+  image: yup.string().url('Please enter a valid URL')
+  .required('This field is required'),
+});
+
+
 
 export default function CreateProduct() {
+
   const dispatch = useDispatch();
 
+  const formik = useFormik({
+    initialValues: {
+      image: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: () => {
+      dispatch(addHero(formData));
+    },
+  });
+
   const [formData, setFormData] = useState({
-    id: '', 
+    id: Math.random().toString(), 
     name: '', 
     alternate_names: [], 
     species: '', 
@@ -44,17 +64,11 @@ export default function CreateProduct() {
     actor: '', 
     alternate_actors: [], 
     alive: false, 
-    image: '', 
-    urlImage: '', 
+    image: ''
   });
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.stopPropagation();
-    event.preventDefault();
-     console.log('Submitted: ', formData);
-    dispatch(addHero(formData));
-  };
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
+    formik.handleChange(event);
     const { name, value } = event.target;
 
     setFormData({
@@ -76,7 +90,7 @@ export default function CreateProduct() {
           }}
           noValidate
           autoComplete='off'
-          onSubmit={handleSubmit}
+          onSubmit={formik.handleSubmit}
         >
           <TextField
             id='outlined-basic'
@@ -88,11 +102,14 @@ export default function CreateProduct() {
           />
           <TextField
             id='outlined-basic'
-            name='urlImage'
+            name='image'
             label='url image'
             variant='outlined'
+            value={formik.values.image}
+            error={formik.touched.image && Boolean(formik.errors.image)}
             required
             onChange={handleInputChange}
+            helperText={formik.touched.image && formik.errors.image}
           />
           <TextField
             id='outlined-basic'

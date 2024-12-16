@@ -11,9 +11,7 @@ export const heroesSlice = createSlice({
       state.favorite = [...state.favorite, action.payload];
     },
     addHero: (state, action) => {
-      console.log(state.heroes);
-      console.log(action.payload);
-      state.heroes = [...state.heroes, action.payload];
+      state.heroes = [action.payload, ...state.heroes];
     },
     setHeroes: (state, action) => {
       state.heroes = action.payload;

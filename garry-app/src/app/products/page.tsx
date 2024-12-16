@@ -1,11 +1,19 @@
 'use client';
-import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, InputBase, styled } from "@mui/material";
-import CardHero from "../components/Card/page";
-import React from "react";
-import { useSelector } from "react-redux";
-import { InitialStore } from "../types";
-import Link from "next/link";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  InputBase,
+  styled,
+  Stack,
+  Pagination,
+} from '@mui/material';
 
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { Cards } from '../Cards/page';
 
 const BootstrapInput = styled(InputBase)(({}) => ({
   '& .MuiInputBase-input': {
@@ -20,22 +28,23 @@ const BootstrapInput = styled(InputBase)(({}) => ({
   },
 }));
 
-
-
 export default function Products() {
-	
+  const [favorite, setFavorite] = useState('all');
 
-	 const [favorite, setFavorite] = React.useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
 
-	const stateHeroes = useSelector((state: InitialStore) => state.heroes);
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setCurrentPage(value);
+  };
 
-	const stateFavorite = useSelector((state: InitialStore) => state.favorite);
+  const handleChange = (event: SelectChangeEvent) => {
+    setFavorite(event.target.value as string);
+  };
 
-   const handleChange = (event: SelectChangeEvent) => {
-     setFavorite(event.target.value as string);
-   };
-
-	return (
+  return (
     <main className='main'>
       <div className='container'>
         <Link href='/create-product'>create hero</Link>
@@ -76,16 +85,25 @@ export default function Products() {
             </MenuItem>
           </Select>
         </FormControl>
-        {favorite !== 'favorite'
-          ? stateHeroes.map((hero, index) => {
-              return <CardHero hero={hero} key={index} />;
-            })
-          : stateHeroes
-              .filter((hero) => stateFavorite.indexOf(hero.id) !== -1)
-              .map((hero, index) => {
-                return <CardHero hero={hero} key={index} />;
-              })}
+        <Stack
+          spacing={2}
+          sx={{ marginBottom: '20px', display: 'flex', width: '100%' }}
+        >
+          <Pagination
+            count={10}
+            shape='rounded'
+            onChange={handlePageChange}
+            page={currentPage}
+            sx={{
+              '& .MuiPaginationItem-root': {
+                color: 'white',
+                fontFamily: 'var(--font-fontdiner-sans)',                                               
+              },
+            }}
+          />
+        </Stack>
+        <Cards favorite={favorite} numberPage={currentPage} />
       </div>
     </main>
   );
-} 
+}

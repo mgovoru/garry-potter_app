@@ -44,7 +44,8 @@ export default function CardHero(props: propsHero) {
     }
   };
 
-  const heroRemove = () => {
+  const heroRemove = (event: React.MouseEvent) => {
+    event?.preventDefault();
     dispatch(removeHero(props.hero.id));
   };
 
@@ -74,7 +75,8 @@ export default function CardHero(props: propsHero) {
       }
     }
     colorSrc(props.hero.house);
-  });
+    setColorIcon(!stateFavorite.includes(props.hero.id) ? false : true);
+  }, [props.hero.house, props.hero.id, stateFavorite]);
 
   return (
     <Link href={`/products/${props.hero.id}`} passHref legacyBehavior>
@@ -105,7 +107,7 @@ export default function CardHero(props: propsHero) {
         <CardMedia
           component='img'
           height='194'
-          image={props.hero.image}
+          image={props.hero.image ? props.hero.image : '/flag.jpg'}
           alt={props.hero.name}
           sx={{
             objectFit: 'contain',

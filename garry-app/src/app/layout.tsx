@@ -2,9 +2,13 @@
 import { Fontdiner_Swanky, Montserrat } from 'next/font/google';
 import './globals.css';
 import './page.scss';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { store } from './store';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { setHeroes } from './heroesSlice';
+import { Character } from './types';
 
 const swankyFont = Fontdiner_Swanky({
   variable: '--font-fontdiner-sans',
@@ -55,11 +59,29 @@ const theme = createTheme({
   },
 });
 
-export default function RootLayout({
+function InnerLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function getHeroes() {
+      try {
+        const response = await axios.get(
+          'https://hp-api.onrender.com/api/characters'
+        );
+        dispatch(setHeroes(response.data as Character[]));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getHeroes();
+  }, [dispatch]);
+
+
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
@@ -70,5 +92,17 @@ export default function RootLayout({
         </html>
       </Provider>
     </ThemeProvider>
+  );
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Provider store={store}>
+      <InnerLayout>{children}</InnerLayout>
+    </Provider>
   );
 }
