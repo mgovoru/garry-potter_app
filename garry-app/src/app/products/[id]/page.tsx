@@ -37,7 +37,7 @@ export default function PageCard({
   const heroes = useSelector((state: InitialStore) => state.heroes);
 
   if (!heroes.length) {
-    return <div>Данные загружаются...</div>;
+    return <div className='textWhite'>loading...</div>;
   }
 
   const dataHero = heroes.find((el) => el.id === id) as Character;
@@ -74,7 +74,9 @@ export default function PageCard({
               <Stack
                 spacing={2}
                 sx={{
-                  '& > *': { fontFamily: 'var(--font-montserrat-sans)' },
+                  '& > *': {
+                    fontFamily: 'var(--font-montserrat-sans) !important',
+                  },
                 }}
               >
                 <Item>

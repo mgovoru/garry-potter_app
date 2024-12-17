@@ -25,7 +25,6 @@ const fieldsToValidate = [
   'hairColour',
   'patronus',
   'eyeColour',
-  'dateOfBirth',
 ];
 
 const validationSchema = yup.object(
@@ -47,6 +46,8 @@ const validationSchema = yup.object(
 );
 
 export default function CreateProduct() {
+  const [heroDone, setHeroDane] = useState(false);
+
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -58,11 +59,11 @@ export default function CreateProduct() {
       hairColour: '',
       patronus: '',
       eyeColour: '',
-      dateOfBirth: '',
     },
     validationSchema: validationSchema,
     onSubmit: () => {
       dispatch(addHero(formData));
+      setHeroDane(true);
     },
   });
 
@@ -95,6 +96,8 @@ export default function CreateProduct() {
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.stopPropagation();
+    event.preventDefault();
     formik.handleChange(event);
     const { name, value } = event.target;
 
@@ -114,6 +117,10 @@ export default function CreateProduct() {
           flexDirection: 'column',
           gap: '10px',
           minWidth: 345,
+          '& .MuiInputBase-input': {
+            fontSize: '18px',
+            color: 'white',
+          },
         }}
         noValidate
         autoComplete='off'
@@ -282,6 +289,9 @@ export default function CreateProduct() {
           label='date of birth'
           variant='outlined'
           onChange={handleInputChange}
+          sx={{
+            '& .MuiInputBase-input': { color: 'black' },
+          }}
         />
         <Button
           type='submit'
@@ -302,7 +312,7 @@ export default function CreateProduct() {
               fontWeight: '600',
             }}
           >
-            Add Hero
+            {heroDone ? 'Hero Done' : 'Add Hero'}
           </Typography>
         </Button>
       </Box>

@@ -11,9 +11,11 @@ import {
   Pagination,
 } from '@mui/material';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Cards } from '../Cards/page';
+import { useSelector } from 'react-redux';
+import { InitialStore } from '../types';
 
 const BootstrapInput = styled(InputBase)(({}) => ({
   '& .MuiInputBase-input': {
@@ -44,9 +46,31 @@ export default function Products() {
     setFavorite(event.target.value as string);
   };
 
+  const heroesLength = useSelector(
+    (state: InitialStore) => state.heroes.length
+  );
+
+  const heroesFavoriteLength = useSelector(
+    (state: InitialStore) => state.favorite.length
+  );
+
+  const [count, setCount] = useState(
+    favorite === 'all'
+      ? Math.ceil(heroesLength / 20)
+      : Math.ceil(heroesFavoriteLength / 20)
+  );
+
+  useEffect(() => {
+    setCount(
+      favorite === 'all'
+        ? Math.ceil(heroesLength / 20)
+        : Math.ceil(heroesFavoriteLength / 20)
+    );
+  }, [favorite, heroesLength, heroesFavoriteLength]);
+
   return (
     <>
-      <Link href='/create-product'>create hero</Link>
+      <Link href='/create-product' className='link'>create hero</Link>
       <FormControl fullWidth>
         <InputLabel
           id='demo-simple-select-label'
@@ -89,7 +113,7 @@ export default function Products() {
         sx={{ marginBottom: '20px', display: 'flex', width: '100%' }}
       >
         <Pagination
-          count={10}
+          count={count}
           shape='rounded'
           onChange={handlePageChange}
           page={currentPage}
