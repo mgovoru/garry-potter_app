@@ -34,14 +34,13 @@ export default function PageCard({
 }) {
   const { id } = React.use(params);
 
-  
   const heroes = useSelector((state: InitialStore) => state.heroes);
 
-   if (!heroes.length) {
-     return <div>Данные загружаются...</div>;
-   }
+  if (!heroes.length) {
+    return <div>Данные загружаются...</div>;
+  }
 
-  const dataHero = heroes.find((el) => el.id === id) as Character; 
+  const dataHero = heroes.find((el) => el.id === id) as Character;
 
   if (!dataHero) {
     notFound();
@@ -75,7 +74,7 @@ export default function PageCard({
               <Stack
                 spacing={2}
                 sx={{
-                  '& >*': { fontFamily: 'var(--font-montserrat-sans)' },
+                  '& > *': { fontFamily: 'var(--font-montserrat-sans)' },
                 }}
               >
                 <Item>
