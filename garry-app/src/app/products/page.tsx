@@ -4,7 +4,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  SelectChangeEvent,
   InputBase,
   styled,
   Stack,
@@ -13,7 +12,7 @@ import {
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Cards } from '../Cards/page';
+import Cards from '../components/Cards/pageCards';
 import { useSelector } from 'react-redux';
 import { InitialStore } from '../types';
 
@@ -31,7 +30,7 @@ const BootstrapInput = styled(InputBase)(({}) => ({
 }));
 
 export default function Products() {
-  const [favorite, setFavorite] = useState('all');
+  const [favorite, setFavorite] = useState('false');
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -42,7 +41,7 @@ export default function Products() {
     setCurrentPage(value);
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: { target: { value: string } }) => {
     setFavorite(event.target.value as string);
   };
 
@@ -55,14 +54,14 @@ export default function Products() {
   );
 
   const [count, setCount] = useState(
-    favorite === 'all'
+    favorite === 'false'
       ? Math.ceil(heroesLength / 20)
       : Math.ceil(heroesFavoriteLength / 20)
   );
 
   useEffect(() => {
     setCount(
-      favorite === 'all'
+      favorite === 'false'
         ? Math.ceil(heroesLength / 20)
         : Math.ceil(heroesFavoriteLength / 20)
     );
@@ -70,7 +69,9 @@ export default function Products() {
 
   return (
     <>
-      <Link href='/create-product' className='link'>create hero</Link>
+      <Link href='/create-product' className='link'>
+        create hero
+      </Link>
       <FormControl fullWidth>
         <InputLabel
           id='demo-simple-select-label'
@@ -85,13 +86,13 @@ export default function Products() {
         <Select
           labelId='demo-simple-select-label'
           id='demo-simple-select'
-          value={favorite}
           label='Age'
           onChange={handleChange}
           input={<BootstrapInput />}
+          value={favorite}
         >
           <MenuItem
-            value={'all'}
+            value={'false'}
             sx={{
               fontFamily: 'var(--font-fontdiner-sans)',
             }}
@@ -99,7 +100,7 @@ export default function Products() {
             All
           </MenuItem>
           <MenuItem
-            value={'favorite'}
+            value={'true'}
             sx={{
               fontFamily: 'var(--font-fontdiner-sans)',
             }}
@@ -125,7 +126,7 @@ export default function Products() {
           }}
         />
       </Stack>
-      <Cards favorite={favorite} numberPage={currentPage} />
+      <Cards favoriteChoose={favorite === 'true'} numberPage={currentPage} />
     </>
   );
 }

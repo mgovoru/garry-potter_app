@@ -34,6 +34,6 @@ export type InitialStore = {
 	favorite: string[];
 };
 export type propsFavoritePage = {
-	favorite: string;
+	favoriteChoose: boolean;
 	numberPage: number;
 }
