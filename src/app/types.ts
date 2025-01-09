@@ -1,3 +1,5 @@
+import { FormikProps } from "formik";
+
 export type Character = {
 	id: string;
 	name: string;
@@ -6,7 +8,7 @@ export type Character = {
 	gender: string;
 	house: string;
 	dateOfBirth: string;
-	yearOfBirth: number;
+	yearOfBirth: number|null;
 	wizard: boolean;
 	ancestry: string;
 	eyeColour: string;
@@ -36,4 +38,19 @@ export type InitialStore = {
 export type propsFavoritePage = {
 	favoriteChoose: boolean;
 	numberPage: number;
+}
+
+interface FormValues {
+	image: string;
+	name: string;
+	species: string;
+	house: string;
+	hairColour: string;
+	patronus: string;
+	eyeColour: string;
+}
+export type propsFormFields = {
+	values: Character;
+	onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	formik: FormikProps<FormValues>
 }

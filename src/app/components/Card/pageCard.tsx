@@ -20,9 +20,17 @@ import {
 } from '@/app/heroesSlice';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
+import {
+  Box,
+  Drawer,
+  Stack} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { Item } from '@/app/products/[id]/page';
 
 export default function CardHero(props: propsHero) {
   const [color, setColor] = React.useState('');
+
+  const [open, setOpen] = React.useState(false);
 
   const [colorIcon, setColorIcon] = React.useState(false);
 
@@ -31,6 +39,82 @@ export default function CardHero(props: propsHero) {
   const stateFavorite = useSelector((state: InitialStore) => state.favorite);
 
   const dispatch = useDispatch();
+
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setOpen(newOpen);
+  };
+  const openDrawer = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    toggleDrawer(true)();
+  };
+    const closeDrawer = (event: React.MouseEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+      toggleDrawer(false)();
+    };
+
+  const DrawerList = (
+    <Box sx={{ width: 250 }} role='presentation' onClick={closeDrawer}>
+      <Stack
+        spacing={2}
+        sx={{
+          '& > *': {
+            fontFamily: 'var(--font-montserrat-sans) !important',
+          },
+        }}
+      >
+        <Item>
+          {'house: '}
+          {props.hero.house || 'unknown'}
+        </Item>
+        <Item>
+          {'species: '}
+          {props.hero.species || 'unknown'}
+        </Item>
+        <Item>
+          {'hair colour: '}
+          {props.hero.hairColour || 'unknown'}
+        </Item>
+        <Item>
+          {'staff: '}
+          {props.hero.hogwartsStaff || 'unknown'}
+        </Item>
+        <Item>
+          {'student: '}
+          {props.hero.hogwartsStudent || 'unknown'}
+        </Item>
+        <Item>
+          {'patronus: '}
+          {props.hero.patronus || 'unknown'}
+        </Item>
+        <Item>
+          {'eye colour: '}
+          {props.hero.eyeColour || 'unknown'}
+        </Item>
+        <Item>
+          {'date of birth: '}
+          {props.hero.dateOfBirth || 'unknown'}
+        </Item>
+        <Item>
+          {'wizard: '}
+          {props.hero.wizard || 'unknown'}
+        </Item>
+        <Item>
+          {'wand wood: '}
+          {props.hero.wand?.wood || 'unknown'}
+        </Item>
+        <Item>
+          {'wand core: '}
+          {props.hero.wand?.core || 'unknown'}
+        </Item>
+        <Item>
+          {'wand length: '}
+          {props.hero.wand?.length || 'unknown'}
+        </Item>
+      </Stack>
+    </Box>
+  );
 
   const addRemoveFavorite = (event: React.MouseEvent) => {
     event.stopPropagation();
@@ -137,6 +221,12 @@ export default function CardHero(props: propsHero) {
           <IconButton aria-label='delete' onClick={heroRemove}>
             <DeleteIcon />
           </IconButton>
+          <IconButton onClick={openDrawer} aria-label='edit'>
+            <EditIcon />
+          </IconButton>
+          <Drawer open={open} onClose={closeDrawer}>
+            {DrawerList}
+          </Drawer>
         </CardActions>
       </Card>
     </Link>
