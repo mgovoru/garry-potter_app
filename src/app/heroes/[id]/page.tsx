@@ -16,7 +16,7 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Link from 'next/link';
 
-export const Item = styled(Paper)(({ theme }) => ({
+const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
