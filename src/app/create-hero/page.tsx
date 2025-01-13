@@ -22,6 +22,9 @@ export default function CreateProduct() {
       hairColour: '',
       patronus: '',
       eyeColour: '',
+      dateOfBirth: '',
+      wizard: false,
+      hogwartsStudent: false,
     },
     validationSchema: validationSchema,
     onSubmit: () => {addHeroBase();},
@@ -84,14 +87,18 @@ export default function CreateProduct() {
           minWidth: 345,
           '& .MuiInputBase-input': {
             fontSize: '18px',
-            color: 'white',
           },
+         '& > *': { color: 'white'},
         }}
         noValidate
         autoComplete='off'
         onSubmit={formik.handleSubmit}
       >
-        <FormFields values={formData} onInputChange={handleInputChange} formik={formik}/>
+        <FormFields
+          values={formData}
+          onInputChange={handleInputChange}
+          formik={formik}
+        />
         <Button
           type='submit'
           variant='contained'
@@ -115,7 +122,7 @@ export default function CreateProduct() {
           </Typography>
         </Button>
       </Box>
-      <Link href='/products' className='link'>
+      <Link href='/heroes' className='link'>
         to students
       </Link>
     </>

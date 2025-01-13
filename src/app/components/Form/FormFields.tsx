@@ -1,12 +1,20 @@
-import { propsFormFields } from "@/app/types";
-import { TextField, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
-
+import { propsFormFields } from '@/app/types';
+import {
+  TextField,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from '@mui/material';
 
 export default function FormFields(props: propsFormFields) {
+const formatDate = (dateStr: string)  => {
+    const [day, month, year] = dateStr.split('-');
+    return `${year}-${month}-${day}`;
+  }
 
-
-	
-	return (
+  return (
     <>
       <TextField
         id='outlined-basic'
@@ -70,39 +78,46 @@ export default function FormFields(props: propsFormFields) {
         }
         required
       />
-      <FormControl sx={{ color: 'white' }}>
-        <FormLabel
-          id='demo-controlled-radio-buttons-group'
-          sx={{
-            color: 'white',
-            fontWeight: 'bold',
-          }}
-        >
-          Student
-        </FormLabel>
+      <FormControl
+        sx={{
+          '& > *': {
+            textShadow: '1px 1px white',
+            fontFamily: 'var(--font-montserrat-sans) !important',
+          },
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '16px',
+        }}
+      >
+        <FormLabel id='demo-controlled-radio-buttons-group'>Student</FormLabel>
         <RadioGroup
           aria-labelledby='demo-controlled-radio-buttons-group'
           name='controlled-radio-buttons-group'
           onChange={props.onInputChange}
+          sx={{
+            flexDirection: 'row',
+          }}
         >
           <FormControlLabel
-            value={true}
+            value={props.formik.values.hogwartsStudent}
             control={
               <Radio
                 sx={{
-                  color: 'white',
+                  '&.Mui-checked': { color: 'red' },
                 }}
+                checked={props.formik.values.hogwartsStudent}
               />
             }
             label='yes'
           />
           <FormControlLabel
-            value={false}
+            value={!props.formik.values.hogwartsStudent}
             control={
               <Radio
                 sx={{
-                  color: 'white',
+                  '&.Mui-checked': { color: 'red' },
                 }}
+                checked={!props.formik.values.hogwartsStudent}
               />
             }
             label='no'
@@ -140,11 +155,20 @@ export default function FormFields(props: propsFormFields) {
         }
         required
       />
-      <FormControl sx={{ color: 'white' }}>
+      <FormControl
+        sx={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '16px',
+          '& > *': {
+            textShadow: '1px 1px white',
+            fontFamily: 'var(--font-montserrat-sans) !important',
+          },
+        }}
+      >
         <FormLabel
           id='demo-controlled-radio-buttons-group'
           sx={{
-            color: 'white',
             fontWeight: 'bold',
           }}
         >
@@ -154,29 +178,22 @@ export default function FormFields(props: propsFormFields) {
           aria-labelledby='demo-controlled-radio-buttons-group'
           name='controlled-radio-buttons-group'
           onChange={props.onInputChange}
-          sx={{ display: 'flex', gap: '10px' }}
+          sx={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
         >
           <FormControlLabel
-            value={true}
-            control={
-              <Radio
-                sx={{
-                  color: 'white',
-                }}
-              />
-            }
+            value={props.formik.values.wizard}
+            control={<Radio />}
             label='yes'
+            checked={props.formik.values.wizard}
           />
           <FormControlLabel
-            value={false}
-            control={
-              <Radio
-                sx={{
-                  color: 'white',
-                }}
-              />
-            }
+            value={!props.formik.values.wizard}
+            control={<Radio />}
             label='no'
+            checked={!props.formik.values.wizard}
           />
         </RadioGroup>
       </FormControl>
@@ -187,9 +204,7 @@ export default function FormFields(props: propsFormFields) {
         label='date of birth'
         variant='outlined'
         onChange={props.onInputChange}
-        sx={{
-          '& .MuiInputBase-input': { color: 'black' },
-        }}
+        defaultValue={formatDate(props.formik.values.dateOfBirth)}
       />
     </>
   );

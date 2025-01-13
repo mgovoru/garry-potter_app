@@ -48,6 +48,9 @@ interface FormValues {
 	hairColour: string;
 	patronus: string;
 	eyeColour: string;
+	dateOfBirth: string;
+	wizard: boolean;
+	hogwartsStudent: boolean;
 }
 export type propsFormFields = {
 	values: Character;
