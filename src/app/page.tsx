@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-        <Link href='/products' className='link'>
+        <Link href='/heroes' className='link'>
           <h1>
             Harry Potter Heroes <br /> Press me!
           </h1>
