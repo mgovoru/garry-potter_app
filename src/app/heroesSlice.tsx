@@ -26,6 +26,14 @@ export const heroesSlice = createSlice({
         (element) => element.id !== action.payload
       );
     },
+    editHero: (state, action) => {
+     state.heroes = state.heroes.map((element) => {
+       if (element.id === action.payload.id) {
+         return { ...element, ...action.payload };
+       }
+       return element;
+     });
+    },
   },
 });
 
@@ -35,6 +43,7 @@ export const {
   removeFavoriteHero,
   removeHero,
   addHero,
+  editHero,
 } = heroesSlice.actions;
 
 export default heroesSlice.reducer;

@@ -16,7 +16,7 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Link from 'next/link';
 
-const Item = styled(Paper)(({ theme }) => ({
+export const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -93,11 +93,16 @@ export default function PageCard({
                 </Item>
                 <Item>
                   {'staff: '}
-                  {dataHero?.hogwartsStaff || 'unknown'}
+                  {dataHero?.hogwartsStaff
+                    ? 'yes'
+                    : (dataHero?.hogwartsStaff === false && 'no') || 'unknown'}
                 </Item>
                 <Item>
                   {'student: '}
-                  {dataHero?.hogwartsStudent || 'unknown'}
+                  {dataHero?.hogwartsStudent
+                    ? 'yes'
+                    : (dataHero?.hogwartsStudent === false && 'no') ||
+                      'unknown'}
                 </Item>
                 <Item>
                   {'patronus: '}
@@ -113,7 +118,9 @@ export default function PageCard({
                 </Item>
                 <Item>
                   {'wizard: '}
-                  {dataHero?.wizard || 'unknown'}
+                  {dataHero?.wizard
+                    ? 'yes'
+                    : (dataHero?.wizard === false && 'no') || 'unknown'}
                 </Item>
                 <Item>
                   {'wand wood: '}
@@ -133,7 +140,7 @@ export default function PageCard({
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Link href='/products'>to students</Link>
+        <Link href='/heroes'>to students</Link>
       </CardActions>
     </Card>
   );

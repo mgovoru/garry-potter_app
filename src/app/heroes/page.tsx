@@ -69,7 +69,7 @@ export default function Products() {
 
   return (
     <>
-      <Link href='/create-product' className='link'>
+      <Link href='/create-hero' className='link'>
         create hero
       </Link>
       <FormControl fullWidth>
