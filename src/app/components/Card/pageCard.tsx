@@ -26,6 +26,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import FormFields from '../Form/FormFields';
 import { useFormik } from 'formik';
 import { validationSchema } from '../Form/validation';
+import {
+  cardTexts,
+  formTexts,
+  statusTexts,
+  genderTexts,
+} from '@/app/constants/texts';
 
 export default function CardHero(props: propsHero) {
   const [color, setColor] = React.useState('');
@@ -36,7 +42,9 @@ export default function CardHero(props: propsHero) {
 
   const [imageSrc, setimageSrc] = React.useState('/');
 
-  const stateFavorite = useSelector((state: InitialStore) => state.favorite);
+  const stateFavorite = useSelector(
+    (state: InitialStore) => state.heroes.favorite
+  );
 
   const dispatch = useDispatch();
 
@@ -73,7 +81,7 @@ export default function CardHero(props: propsHero) {
     },
   });
 
-  const heroes = useSelector((state: InitialStore) => state.heroes);
+  const heroes = useSelector((state: InitialStore) => state.heroes.heroes);
 
   const dataHero = heroes.find((el) => el.id === props.hero.id) as Character;
 
@@ -129,6 +137,7 @@ export default function CardHero(props: propsHero) {
       <FormFields
         values={dataHero}
         onInputChange={handleInputChange}
+        onBlur={formik.handleBlur}
         formik={formik}
       />
       <Button
@@ -203,74 +212,118 @@ export default function CardHero(props: propsHero) {
   }, [props.hero.house, props.hero.id, stateFavorite]);
 
   return (
-    <Card sx={{ width: 345 }}>
-      <Link href={`/heroes/${props.hero.id}`} passHref legacyBehavior>
-        <div className='linkcontent'>
-          <CardHeader
-            sx={{
-              fontFamily: 'var(--font-fontdiner-sans)',
-              height: `90px`,
-            }}
-            avatar={
-              <Avatar sx={{ bgcolor: color }} aria-label='faculty'>
-                <Image
-                  src={imageSrc as string}
-                  alt='faculty'
-                  width={35}
-                  height={35}
-                />
-              </Avatar>
-            }
-            title={props.hero.name}
-            titleTypographyProps={{
-              sx: {
-                fontFamily: 'var(--font-fontdiner-sans)',
-                fontSize: '24px',
-              },
-            }}
+    <Card
+      sx={{
+        maxWidth: 345,
+        backgroundColor: '#1a1a1a',
+        color: 'white',
+        '&:hover': {
+          transform: 'scale(1.02)',
+          transition: 'transform 0.2s ease-in-out',
+        },
+      }}
+    >
+      <CardHeader
+        avatar={
+          <Avatar
+            sx={{ bgcolor: color }}
+            aria-label='recipe'
+            src={props.hero.image}
           />
-          <CardMedia
-            component='img'
-            height='194'
-            image={props.hero.image ? props.hero.image : '/flag.jpg'}
-            alt={props.hero.name}
-            sx={{
-              objectFit: 'contain',
-              height: `200px`,
-            }}
-          />
-          <CardContent>
-            <Typography
-              variant='body2'
-              sx={{
-                color: 'text.secondary',
-                fontFamily: 'var(--font-montserrat-sans)',
-                fontSize: '18px',
-              }}
-            >
-              {`patronus:`} {props.hero.patronus || 'unknown'}
-            </Typography>
-          </CardContent>
-        </div>
-      </Link>
+        }
+        title={props.hero.name}
+        subheader={props.hero.species}
+      />
+      <CardMedia
+        component='img'
+        height='194'
+        image={imageSrc}
+        alt={props.hero.name}
+        onError={() => setimageSrc('/error-image.jpg')}
+      />
+      <CardContent>
+        <Typography variant='body2' color='text.secondary'>
+          {cardTexts.status}:{' '}
+          {statusTexts[props.hero.status as keyof typeof statusTexts]}
+        </Typography>
+        <Typography variant='body2' color='text.secondary'>
+          {formTexts.gender}:{' '}
+          {genderTexts[props.hero.gender as keyof typeof genderTexts]}
+        </Typography>
+        <Typography variant='body2' color='text.secondary'>
+          {formTexts.origin}: {props.hero.origin?.name || 'Неизвестно'}
+        </Typography>
+        <Typography variant='body2' color='text.secondary'>
+          {formTexts.location}: {props.hero.location?.name || 'Неизвестно'}
+        </Typography>
+        <Typography variant='body2' color='text.secondary'>
+          {formTexts.house}: {props.hero.house || 'Неизвестно'}
+        </Typography>
+      </CardContent>
       <CardActions disableSpacing>
         <IconButton
           aria-label='add to favorites'
           onClick={addRemoveFavorite}
-          sx={{ color: !colorIcon ? 'grey' : 'red' }}
+          sx={{ color: colorIcon ? 'red' : 'white' }}
         >
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label='delete' onClick={heroRemove}>
-          <DeleteIcon />
-        </IconButton>
-        <IconButton onClick={openDrawer} aria-label='edit'>
+        <IconButton
+          aria-label='edit'
+          onClick={openDrawer}
+          sx={{ color: 'white' }}
+        >
           <EditIcon />
         </IconButton>
-        <Drawer open={open} onClose={closeDrawer}>
-          {DrawerList}
-        </Drawer>
+        <IconButton
+          aria-label='delete'
+          onClick={heroRemove}
+          sx={{ color: 'white' }}
+        >
+          <DeleteIcon />
+        </IconButton>
       </CardActions>
+      <Drawer
+        anchor='right'
+        open={open}
+        onClose={closeDrawer}
+        PaperProps={{
+          sx: {
+            backgroundColor: '#1a1a1a',
+            color: 'white',
+            width: '100%',
+            maxWidth: '400px',
+          },
+        }}
+      >
+        <Box sx={{ p: 2 }}>
+          <Typography variant='h6' sx={{ mb: 2, color: 'white' }}>
+            {formTexts.title}
+          </Typography>
+          <FormFields
+            values={dataHero}
+            onInputChange={handleInputChange}
+            onBlur={formik.handleBlur}
+            formik={formik}
+          />
+          <Box sx={{ mt: 2, display: 'flex', gap: 2 }}>
+            <Button
+              variant='contained'
+              onClick={formik.handleSubmit}
+              sx={{ bgcolor: '#6b46c1', '&:hover': { bgcolor: '#553c9a' } }}
+            >
+              {formTexts.saveButton}
+            </Button>
+            <Button
+              variant='outlined'
+              onClick={closeDrawer}
+              sx={{ color: 'white', borderColor: 'white' }}
+            >
+              {formTexts.cancelButton}
+            </Button>
+          </Box>
+        </Box>
+      </Drawer>
     </Card>
   );
 }

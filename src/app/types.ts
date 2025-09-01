@@ -8,7 +8,7 @@ export type Character = {
 	gender: string;
 	house: string;
 	dateOfBirth: string;
-	yearOfBirth: number|null;
+	yearOfBirth: number | null;
 	wizard: boolean;
 	ancestry: string;
 	eyeColour: string;
@@ -25,6 +25,13 @@ export type Character = {
 	alternate_actors: string[];
 	alive: boolean;
 	image: string;
+	status: string;
+	origin?: {
+		name: string;
+	};
+	location?: {
+		name: string;
+	};
 };
 
 export type propsHero = {
@@ -32,9 +39,12 @@ export type propsHero = {
 }
 
 export type InitialStore = {
-	heroes: Character[];
-	favorite: string[];
+	heroes: {
+		heroes: Character[];
+		favorite: string[];
+	};
 };
+
 export type propsFavoritePage = {
 	favoriteChoose: boolean;
 	numberPage: number;
@@ -55,5 +65,6 @@ interface FormValues {
 export type propsFormFields = {
 	values: Character;
 	onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
 	formik: FormikProps<FormValues>
 }
